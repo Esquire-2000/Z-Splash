@@ -96,6 +96,12 @@ def get_name ():
     name=name[:1].upper()+name[1:]
     return name
 
+def check_conn (): # check internet connection
+    try:
+        response=requests.get ("https://www.google.com/")
+        return True
+    except requests.ConnectionError: pass
+    return False
 
 # instantiate PyUnsplash object
 pu = pyunsplash.PyUnsplash(api_key=get_key())
@@ -103,4 +109,10 @@ print(Fore.MAGENTA+"Welcome "+get_name()+" to Z-Splash"+ Style.RESET_ALL)
 # Call functions
 initiate() # delete contents of temp if present
 mk_dir() # make temp folder if not present
-get_images() # get the images from unsplash.com
+if not check_conn():
+    print(Fore.RED+"No internet connection found. "+ Style.RESET_ALL)
+    time.sleep(5)
+else:
+    get_images() # get the images from unsplash.com
+
+
